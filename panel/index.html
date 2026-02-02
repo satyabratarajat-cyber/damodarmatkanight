@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Damodar Panel Chart</title>
 
+<style>
+body{margin:0;background:#0b0b0b;color:#fff;font-family:Arial,sans-serif;}
+header{color:red;text-align:center;font-weight:900;font-size:22px;margin-top:10px;}
+.sub-header{color:#fff;border-top:2px solid blue;text-align:center;padding:2px 0;font-weight:700;}
+.description{text-align:center;max-width:900px;margin:0 auto;padding:2px 10px;}
+.blue-line{width:100%;height:5px;background:#0033cc;margin:14px 0;}
+.yellow-strip{background:#ffff00;border:3px solid red;padding:12px 0;text-align:center;}
+.yellow-strip .title{color:#0033cc;font-weight:900;font-size:28px;font-family:"Times New Roman",Georgia,serif;}
+.dailyDisplay{font-size:32px;font-weight:900;margin-top:6px;font-family:'Times New Roman',serif;font-style:italic;color:#000;letter-spacing:2px;line-height:1;text-shadow:1px 1px 1px rgba(0,0,0,.35);} 
+.dailyDisplay.red{color:#b30000;text-shadow:1px 1px 1px rgba(0,0,0,.7);} 
+
+.panel-box{max-width:560px;width:42%;margin:10px auto;border:5px solid #5a2d82;border-radius:0;padding:0;background:#ffffff;color:#000;min-height:120px;box-shadow:0 0 6px rgba(0,0,0,.3);}  
+.day-col{display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 0;}
+.left-panel,.right-panel{display:flex;flex-direction:column;gap:0;}
+.day-top,.day-bottom{font-size:12px;font-weight:700;line-height:1.05;color:#5b5b5b;font-family:'Times New Roman',serif;letter-spacing:2px;}
+
+/* DATE digits (match jodi style) */
+.date-num{display:block;font-size:12px;font-weight:900;font-family:'Times New Roman',serif;font-style:italic;color:#000;text-shadow:1px 1px 1px rgba(0,0,0,.35);line-height:.9;letter-spacing:.5px;margin:1px 0;padding:0 2px;}
+
+/* JODI digits spacing */
+.day-jodi{font-size:clamp(22px,2.6vw,26px);letter-spacing:0.5px;font-weight:900;font-family:'Times New Roman',serif;font-style:italic;line-height:1.02;color:#000;text-shadow:1px 1px 1px rgba(0,0,0,.35);} 
+.day-jodi .digit{display:inline-block;}
+.day-jodi.red{color:#d33;text-shadow:1px 1px 1px rgba(0,0,0,.35);} 
+
+/* POSITION LOGIC */
+.digit-2{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.95);} 
+.digit-1{font-size:0.85em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.9);} 
+.digit-0{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) skewX(-3deg) scaleX(.98);} 
+.digit-6{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0px) skewX(-3deg) scaleX(.98);} 
+.digit-8{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.98);} 
+.digit-9{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.97);} 
+.digit-3{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+.digit-4{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.96);} 
+.digit-5{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+.digit-7{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+
+.disclaimer{text-align:center;color:#ccc;font-size:12px;line-height:1.6;max-width:900px;margin:20px auto 40px;padding:0 12px;}
+.nav-btn{margin-top:8px;background:#0033cc;color:#fff;padding:8px 22px;border-radius:24px;font-weight:900;border:none;cursor:pointer;}
+.info{color:#fff;text-align:center;font-size:12px;padding:20px;}
+
+@media(max-width:1024px){
+  .panel-box{width:52%;max-width:600px;}
+}
+
+@media(max-width:768px){
+  .panel-box{width:100%;max-width:100%;padding:2px;overflow-x:auto;}
+  #weeks > div{border-bottom-width:1px !important;}
+  .day-col{padding:0;gap:0.5px;}
+  .day-top,.day-bottom{line-height:1.02;font-size:9.5px;}
+  .panel-box > div{grid-template-columns:88px repeat(6,1fr)!important;}
+  .day-jodi{font-size:clamp(20px,3vw,23px);} 
+}
+
+@media(max-width:420px){
+  .panel-box > div{grid-template-columns:78px repeat(6,1fr)!important;}
+  .day-jodi{font-size:clamp(19px,3.6vw,21px);} 
+  .day-top,.day-bottom{font-size:9px;}
+}
+</style>
+</head>
+<body>
+
+<header>DAMODAR CHART</header>
+<div class="sub-header">Damodar Panel Chart Result</div>
+<div class="description">This page is intended strictly for informational and educational purposes only.</div>
+
+<div class="blue-line"></div>
+<div class="yellow-strip"><div class="title">DAMODAR</div><div class="dailyDisplay">---</div><button class="nav-btn" onclick="location.reload()">REFRESH</button></div>
+<div class="blue-line"></div>
+
+<div style="text-align:center;margin:10px 0;"><button class="nav-btn" onclick="goBottom()">GO TO BOTTOM</button></div>
+<div class="panel-box" id="weeks"><div class="info">Panel data loading…</div></div>
+<div style="text-align:center;margin:10px 0;"><button class="nav-btn" onclick="goTop()">GO TO TOP</button></div>
+
+<div class="blue-line"></div>
+<div class="yellow-strip"><div class="title">DAMODAR</div><div class="dailyDisplay">---</div><button class="nav-btn" onclick="location.reload()">REFRESH</button></div>
+
+<div style="text-align:center;margin:12px 0;">
+  <button class="nav-btn" onclick="window.location.href='/'">HOME</button>
+  <button class="nav-btn" style="margin-left:10px" onclick="window.location.href='/index.html'">JODI CHART</button>
+</div>
+
+<div class="disclaimer"><strong>Disclaimer:</strong><br>Information only.</div>
+
+<script>
+function goTop(){window.scrollTo({top:0,behavior:'smooth'});} 
+function goBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});} 
+
+document.addEventListener('DOMContentLoaded',()=>{
+
+let DAILY_RENDERED = false;
+let WEEKS_RENDERED = false;
+
+const specialJodi=["00","11","22","33","44","55","66","77","88","99","05","50","16","61","27","72","38","83","49","94"];
+
+function renderDayCell(day){
+  if(!day || !day.jodi){ return ''; }
+  const jodi = day.jodi;
+  const L = day.L || '';
+  const R = day.R || '';
+  const cls = specialJodi.includes(jodi) ? 'day-jodi red' : 'day-jodi';
+
+  const d = function(ch){
+    return ((ch || ch === 0) && String(ch) !== '')
+      ? `<span class="digit digit-${String(ch)}">${String(ch)}</span>`
+      : `<span class="digit dash">&mdash;</span>`;
+  };
+
+  const d1 = (jodi && jodi[0]) ? d(jodi[0]) : '';
+  const d2 = (jodi && jodi[1]) ? d(jodi[1]) : '';
+
+  return (
+`<div class="day-col">
+  <div class="left-panel">
+    <div class="day-top">${d(L[0])}</div>
+    <div class="day-top">${d(L[1])}</div>
+    <div class="day-top">${d(L[2])}</div>
+  </div>
+  <div class="${cls}">${d1}${d2}</div>
+  <div class="right-panel">
+    <div class="day-bottom">${d(R[0])}</div>
+    <div class="day-bottom">${d(R[1])}</div>
+    <div class="day-bottom">${d(R[2])}</div>
+  </div>
+</div>`);
+}
+
+function formatDigits(str){
+  if(!str){ return ''; }
+  return String(str).replace(/([0-9])/g,function(m){
+    return '<span class="digit digit-' + m + '">' + m + '</span>';
+  });
+}
+
+function renderWeeks(data){
+  const box = document.getElementById('weeks');
+  box.innerHTML = '';
+
+  if(!data.weeks || !data.weeks.length){
+    box.innerHTML = '<div class="info">No panel history available yet.</div>';
+    return;
+  }
+
+  data.weeks.forEach(function(w,i){
+    if(i===0){
+      box.insertAdjacentHTML('beforeend',
+`<div style="display:grid;grid-template-columns:88px repeat(6,1fr);background:#f7f7f7;color:#000;font-weight:900;text-align:center;border-bottom:1px solid #ddd">
+  <div style='padding:6px 0'>DATE</div>
+  <div style='padding:6px 0'>MON</div>
+  <div style='padding:6px 0'>TUE</div>
+  <div style='padding:6px 0'>WED</div>
+  <div style='padding:6px 0'>THU</div>
+  <div style='padding:6px 0'>FRI</div>
+  <div style='padding:6px 0'>SAT</div>
+</div>`);
+    }
+
+    box.insertAdjacentHTML('beforeend',
+`<div style="display:grid;grid-template-columns:88px repeat(6,1fr);gap:0;background:#ffffff;text-align:center;border-bottom:2px solid #5a2d82">
+  <div style='padding:2px 6px'>
+    <div class="date-num">${formatDigits(w.from)}</div>
+    <div style="font-size:10px;color:#000;line-height:.75;margin:1px 0">To</div>
+    <div class="date-num">${formatDigits(w.to)}</div>
+  </div>
+  <div>${renderDayCell(w.days.mon)}</div>
+  <div>${renderDayCell(w.days.tue)}</div>
+  <div>${renderDayCell(w.days.wed)}</div>
+  <div>${renderDayCell(w.days.thu)}</div>
+  <div>${renderDayCell(w.days.fri)}</div>
+  <div>${renderDayCell(w.days.sat)}</div>
+</div>`);
+  });
+}
+
+const SAMPLE={
+  daily:"57",
+  weeks:[
+    {from:"01/01/2026",to:"06/01/2026",days:{
+      mon:{jodi:"24",L:"357",R:"048"},
+      tue:{jodi:"79",L:"269",R:"158"},
+      wed:{jodi:"03",L:"145",R:"239"},
+      thu:{jodi:"55",L:"359",R:"166"},
+      fri:{jodi:"18",L:"249",R:"136"},
+      sat:{jodi:"62",L:"589",R:"047"}
+    }},
+    {from:"08/01/2026",to:"13/01/2026",days:{
+      mon:{jodi:"44",L:"478",R:"024"},
+      tue:{jodi:"21",L:"369",R:"125"},
+      wed:{jodi:"90",L:"168",R:"279"},
+      thu:{jodi:"05",L:"589",R:"224"},
+      fri:{jodi:"72",L:"237",R:"369"},
+      sat:{jodi:"33",L:"118",R:"570"}
+    }}
+  ]
+};
+
+// INITIAL PREVIEW
+renderWeeks(SAMPLE);
+document.querySelectorAll('.dailyDisplay').forEach(el=>{ el.textContent = SAMPLE.daily; });
+
+// DAILY (ROOT data.json)
+fetch('/data.json?_=' + Date.now())
+  .then(r=>{ if(!r.ok) throw new Error('missing/404'); return r.json(); })
+  .then(d=>{
+    document.querySelectorAll('.dailyDisplay').forEach(el=>{
+      el.textContent = d.daily || '---';
+      el.classList.remove('red');
+      if(specialJodi.includes(d.daily)) el.classList.add('red');
+    });
+    DAILY_RENDERED = true;
+  })
+  .catch(err=>{
+    console.warn('data.json (daily) FAILED — leaving previous value', err);
+    document.querySelectorAll('.dailyDisplay').forEach(el=>{
+      el.setAttribute('title','daily not updated: ' + err);
+    });
+  });
+
+// WEEKS (panel/data.json)
+fetch('./data.json?_=' + Date.now())
+  .then(r=>{ if(!r.ok) throw new Error('missing/404'); return r.json(); })
+  .then(d=>{ if(d && d.weeks){ renderWeeks(d); WEEKS_RENDERED = true; } })
+  .catch(err=>{ console.warn('panel/data.json (weeks) FAILED — keeping current history', err); });
+
+// TESTS
+try{
+  console.assert(renderDayCell({jodi:'55',L:'123',R:'456'}).includes('55'),'renderDayCell should include jodi');
+  console.assert(typeof renderWeeks==='function','renderWeeks should be defined');
+  console.assert(renderDayCell({jodi:'10',L:'123',R:'456'}).includes('digit-1'),'side panel digits should use digit classes');
+  // NEW TESTS
+  console.assert(formatDigits('01/01/2026').includes('digit-0'),'formatDigits should wrap date digits correctly');
+  console.assert(/digit-[0-9]/.test(formatDigits('99')),'formatDigits should wrap all digits');
+}catch(e){console.warn('Self tests failed',e);}
+
+});
+</script>
+</body>
+</html>
