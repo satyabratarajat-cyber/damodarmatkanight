@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Damodar Matka Chart</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700;6..96,900&display=swap');
+body{margin:0;background:#0b0b0b;color:#fff;font-family:Arial, sans-serif;}
+header{color:red;text-align:center;font-weight:900;font-size:22px;margin-top:10px;}
+.sub-header{color:#fff;border-top:2px solid blue;text-align:center;padding:6px 0;font-weight:700;}
+.description{text-align:center;max-width:900px;margin:0 auto;padding:6px 10px;}
+.warning{background:#330000;color:#ffcc00;border:2px solid red;padding:10px;margin:10px auto;max-width:900px;font-size:13px;display:none;}
+.blue-line{width:100%;height:5px;background:#0033cc;margin:14px 0;}
+.yellow-strip{background:#ffff00;border:3px solid red;padding:12px 0;text-align:center;}
+.yellow-strip .title{color:#0033cc;font-weight:900;font-size:28px;font-family:"Times New Roman", Georgia, serif;}
+.dailyDisplay{font-size:24px;font-weight:900;color:#000;margin-top:6px;font-family:"Times New Roman", Georgia, serif;}
+.refresh-btn{margin-top:8px;background:#c1121f;color:#d4af37;padding:8px 20px;border-radius:30px;font-weight:900;border:none;cursor:pointer;}
+.panel-box{width:20vw;max-width:300px;min-width:200px;margin:20px auto;border:6px solid purple;border-radius:10px;padding:10px;background:#fff;color:#000;}
+.chart-header{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;font-weight:900;}
+.chart-header div{border-right:1px solid purple;}
+.chart-header div:last-child{border-right:none;}
+.week-row{display:grid;grid-template-columns:repeat(6,1fr);margin-top:2px;row-gap:2px;column-gap:2px;}
+.daycell{display:flex;justify-content:center;align-items:center;text-align:center;border:1px solid purple;background:#fff;aspect-ratio:1/1;padding:0;margin:0;border-radius:0;overflow:hidden;}
+.jodi{font-family:'Times New Roman',serif;font-size:clamp(22px,2.6vw,26px);font-weight:900;font-style:italic;letter-spacing:.5px;color:#000;line-height:1.02;text-shadow:1px 1px 1px rgba(0,0,0,.35);}
+.jodi.red{color:#d33;text-shadow:1px 1px 1px rgba(0,0,0,.35);}
+.jodi.empty{color:#999;}
+.sep{display:none;}
+.nav-btn{background:#0033cc;color:#fff;padding:10px 26px;border-radius:0;font-weight:900;border:2px solid #001b66;cursor:pointer;box-shadow:0 0 0 1px rgba(0,0,0,.25);}
+@media(max-width:768px){
+  .panel-box{width:92vw;max-width:none;}
+  .week-row{grid-template-columns:repeat(6,1fr);row-gap:2px;column-gap:2px;}
+  .daycell{aspect-ratio:auto;padding:10px 0;}
+  .jodi{
+    font-size:clamp(24px,8vw,32px);
+    font-weight:1000;
+    letter-spacing:.6px;
+    line-height:1.06;
+    text-shadow:1.3px 1.3px 1px rgba(0,0,0,.4);
+  }
+}
+
+.disclaimer{text-align:center;color:#ccc;font-size:12px;line-height:1.6;max-width:900px;margin:20px auto 40px;padding:0 12px;}
+/* DIGIT RULE */
+.digit-rule{font-family:'Times New Roman',serif;font-style:italic;font-weight:900;letter-spacing:1px;color:#000;text-shadow:1px 1px 1px rgba(0,0,0,.35);} 
+.digit-rule span{position:relative;display:inline-block;line-height:1;}
+.digit-rule .d0{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) skewX(-3deg) scaleX(.98);} 
+.digit-rule .d1{font-size:0.85em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.9);} 
+.digit-rule .d2{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.95);} 
+.digit-rule .d6{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0px) skewX(-3deg) scaleX(.98);} 
+.digit-rule .d8{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.98);} 
+.digit-rule .d3{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+.digit-rule .d4{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.96);} 
+.digit-rule .d5{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+.digit-rule .d7{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
+.digit-rule .d9{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.97);}
+</style>
+</head>
+<body>
+<header>DAMODAR CHART</header>
+<div class="sub-header">Damodar Matka Chart Result</div>
+<div class="description">
+  This page shows the complete <strong>Damodar Matka Chart Result</strong> with a clean and simple layout.
+  Here you can check previous records, follow trends, and understand patterns for learning purposes.
+  All results are updated from the main data file automatically, so you always see the latest chart without
+  refreshing manually.
+  <br><br>
+  <em>Note:</em> This chart is for study, record‑keeping and educational research only. We do not encourage
+  or promote betting or gambling of any kind.
+</div>
+<div class="blue-line"></div>
+<div class="yellow-strip"><div class="title">DAMODAR</div><div class="dailyDisplay">---</div><button class="refresh-btn" onclick="location.reload()">REFRESH RESULT</button></div>
+<div class="blue-line"></div>
+<div style="text-align:center;"><button class="nav-btn" onclick="goBottom()">GO TO BOTTOM</button></div>
+<div class="panel-box">
+  <div class="chart-header"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div></div>
+  <div class="sep"></div>
+  <div id="weeks-container"></div>
+</div>
+<div style="text-align:center; margin-bottom:20px;"><button class="nav-btn" onclick="goTop()">GO TO TOP</button></div>
+<div class="blue-line"></div>
+<div class="yellow-strip"><div class="title">DAMODAR</div><div class="dailyDisplay">---</div><button class="refresh-btn" onclick="location.reload()">REFRESH RESULT</button></div>
+<div class="blue-line"></div>
+
+
+<!-- WEEKLY EXTRA CHARTS -->
+<div class="panel-box" style="max-width:900px; width:92vw; background:#b30000; color:#fff;">
+  <h3 style="text-align:center; color:#ffeb3b; margin:8px 0;">WEEKLY PANEL / PATTI CHART</h3>
+  <div id="weekly-panel" style="font-size:18px; line-height:2; text-align:center; font-weight:700; color:#000; background:#ffcccc; padding:8px; border-radius:6px;"></div>
+</div>
+
+<div class="panel-box" style="max-width:900px; width:92vw; background:#b30000; color:#fff;">
+  <h3 style="text-align:center; color:#ffeb3b; margin:8px 0;">WEEKLY JODI CHART</h3>
+  <div id="weekly-jodi" style="font-size:30px; font-weight:900; text-align:center; letter-spacing:3px; color:#000; background:#ffcccc; padding:8px; border-radius:6px;"></div>
+</div>
+
+<div class="panel-box" style="max-width:900px; width:92vw; background:#b30000; color:#fff;">
+  <h3 style="text-align:center; color:#ffeb3b; margin:8px 0;">WEEKLY OPEN TO CLOSE</h3>
+  <div id="weekly-openclose" style="font-size:22px; font-weight:800; text-align:center; color:#000; background:#ffcccc; padding:8px; border-radius:6px;"></div>
+</div>
+
+<div style="text-align:center; margin:16px 0;">
+  <a href="/" class="nav-btn" style="text-decoration:none; display:inline-block; margin-right:10px;">HOME</a>
+  <a href="./panel/index.html" class="nav-btn" style="text-decoration:none; display:inline-block;">PANEL CHART</a>
+</div>
+
+<div class="blue-line"></div>
+<div class="disclaimer"><strong>Disclaimer:</strong><br>
+This website is only for informational, educational and record‑keeping purposes.
+Results shown here are taken from publicly available sources and are updated automatically.
+We do not support, promote, or encourage gambling, betting, or any illegal activity.
+Users are fully responsible for how they use the information displayed on this site.
+</div>
+<div class="blue-line"></div>
+
+<script>
+function applyDigitRule(el){
+  var t = el.innerText; var html = "";
+  for(var i=0;i<t.length;i++){
+    var ch=t[i];
+    if(/\d/.test(ch)) html += '<span class="d'+ch+'">'+ch+'</span>'; else html += '<span>'+ch+'</span>';
+  }
+  el.classList.add('digit-rule');
+  el.innerHTML = html;
+}
+const redJodis=["00","11","22","33","44","55","66","77","88","99","05","50","16","61","27","72","38","83","49","94"];
+function goTop(){window.scrollTo({top:0,behavior:'smooth'});} 
+function goBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});} 
+
+// ===== LOAD DATA FROM data.json =====
+fetch('data.json?_=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    // DAILY RESULT
+    document.querySelectorAll('.dailyDisplay').forEach(el => {
+      el.innerText = data.daily || '---';
+      applyDigitRule(el);
+    });
+
+    const box = document.getElementById('weeks-container');
+    box.innerHTML = '';
+
+    function drawWeek(arr){
+      const row = document.createElement('div');
+      row.className = 'week-row';
+      arr.forEach(v => {
+        const c = document.createElement('div');
+        c.className = 'daycell';
+        const j = document.createElement('div');
+        j.className = 'jodi';
+        j.innerText = v || '--';
+        applyDigitRule(j);
+        if(redJodis.includes(v)) j.classList.add('red');
+        c.appendChild(j);
+        row.appendChild(c);
+      });
+      box.appendChild(row);
+      box.appendChild(Object.assign(document.createElement('div'),{className:'sep'}));
+    }
+
+    if(Array.isArray(data.history)) data.history.forEach(drawWeek);
+    if(Array.isArray(data.current)) drawWeek(data.current);
+
+    // ===== WEEKLY DATA SECTION (RESTORED) =====
+    if(data.weekly){
+      const p=document.getElementById('weekly-panel');
+      if(p && data.weekly.panel){
+        p.innerHTML = Object.keys(data.weekly.panel)
+          .map(k=>`${k} =&gt; ${data.weekly.panel[k]}`)
+          .join('<br>');
+      }
+
+      const j=document.getElementById('weekly-jodi');
+      if(j && Array.isArray(data.weekly.jodi)){
+        j.innerHTML = data.weekly.jodi.join('<br>');
+      }
+
+      const o=document.getElementById('weekly-openclose');
+      if(o && data.weekly.openClose){
+        o.innerHTML = Object.keys(data.weekly.openClose)
+          .map(k=>`${k} =&gt; ${data.weekly.openClose[k]}`)
+          .join('<br>');
+      }
+    }
+  })
+  .catch(err => {
+    console.warn('data.json missing or invalid', err);
+  });
+</script>
+</body>
+</html>
