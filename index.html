@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Damodar Matka Night</title>
+<title>Damodar Night Result Today | Live Jodi Update</title>
+<meta name="description" content="Check Damodar Night Result Today with fast jodi and panna updates. Get daily live result and previous records instantly." />
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700;6..96,900&display=swap');
@@ -42,33 +43,25 @@ header{color:red;text-align:center;font-weight:900;font-size:22px;margin-top:10p
 }
 
 .disclaimer{text-align:center;color:#ccc;font-size:12px;line-height:1.6;max-width:900px;margin:20px auto 40px;padding:0 12px;}
-/* DIGIT RULE */
 .digit-rule{font-family:'Times New Roman',serif;font-style:italic;font-weight:900;letter-spacing:1px;color:#000;text-shadow:1px 1px 1px rgba(0,0,0,.35);} 
 .digit-rule span{position:relative;display:inline-block;line-height:1;}
-.digit-rule .d0{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) skewX(-3deg) scaleX(.98);} 
-.digit-rule .d1{font-size:0.85em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.9);} 
-.digit-rule .d2{font-size:0.9em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0) scaleX(.95);} 
-.digit-rule .d6{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(0px) skewX(-3deg) scaleX(.98);} 
-.digit-rule .d8{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.98);} 
-.digit-rule .d3{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
-.digit-rule .d4{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.96);} 
-.digit-rule .d5{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
-.digit-rule .d7{font-size:0.95em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) scaleX(.97);} 
-.digit-rule .d9{font-size:1em;font-weight:900;font-family:'Georgia','Times New Roman',serif;font-style:italic;transform:translateY(1px) skewX(-3deg) scaleX(.97);}
 </style>
 </head>
 <body>
 <header>DAMODAR NIGHT CHART</header>
 <div class="sub-header">Damodar Matka Night Result</div>
+
 <div class="description">
+  <h1 style="font-size:20px; margin-bottom:8px;">Damodar Night </h1>
   This page shows the complete <strong>Damodar Matka Night Result</strong> with a clean and simple layout.
   Here you can check previous records, follow trends, and understand patterns for learning purposes.
   All results are updated from the main data file automatically, so you always see the latest chart without
   refreshing manually.
   <br><br>
-  <em>Note:</em> This chart is for study, record‑keeping and educational research only. We do not encourage
+  <em>Note:</em> This chart is for study‑keeping and educational research only. We do not encourage
   or promote betting or gambling of any kind.
 </div>
+
 <div class="blue-line"></div>
 <div class="yellow-strip"><div class="title">DAMODAR NIGHT</div><div class="dailyDisplay">---</div><button class="refresh-btn" onclick="location.reload()">REFRESH RESULT</button></div>
 <div class="blue-line"></div>
@@ -82,7 +75,6 @@ header{color:red;text-align:center;font-weight:900;font-size:22px;margin-top:10p
 <div class="blue-line"></div>
 <div class="yellow-strip"><div class="title">DAMODAR NIGHT</div><div class="dailyDisplay">---</div><button class="refresh-btn" onclick="location.reload()">REFRESH RESULT</button></div>
 <div class="blue-line"></div>
-
 
 <!-- WEEKLY EXTRA CHARTS -->
 <div class="panel-box" style="max-width:900px; width:92vw; background:#b30000; color:#fff;">
@@ -128,11 +120,9 @@ const redJodis=["00","11","22","33","44","55","66","77","88","99","05","50","16"
 function goTop(){window.scrollTo({top:0,behavior:'smooth'});} 
 function goBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});} 
 
-// ===== LOAD DATA FROM data.json =====
 fetch('data.json?_=' + Date.now())
   .then(r => r.json())
   .then(data => {
-    // DAILY RESULT
     document.querySelectorAll('.dailyDisplay').forEach(el => {
       el.innerText = data.daily || '---';
       applyDigitRule(el);
@@ -162,7 +152,6 @@ fetch('data.json?_=' + Date.now())
     if(Array.isArray(data.history)) data.history.forEach(drawWeek);
     if(Array.isArray(data.current)) drawWeek(data.current);
 
-    // ===== WEEKLY DATA SECTION (RESTORED) =====
     if(data.weekly){
       const p=document.getElementById('weekly-panel');
       if(p && data.weekly.panel){
@@ -190,5 +179,3 @@ fetch('data.json?_=' + Date.now())
 </script>
 </body>
 </html>
-
-
